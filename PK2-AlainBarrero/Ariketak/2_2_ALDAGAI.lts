@@ -1,0 +1,6 @@
+const N = 2
+range R = 0..N
+
+ALD 		= ALD[0],
+ALD[i:R] 	= (idatzi[x:R] -> ALD[x]
+			  |irakurri[i] -> ALD[i]).

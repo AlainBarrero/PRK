@@ -1,0 +1,4 @@
+APUSTUA = 	(hiru->galdu->APUSTUA
+			|bi->irabazi->APUSTUA
+ 			|bat->irabazi->APUSTUA
+).

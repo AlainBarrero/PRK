@@ -1,0 +1,20 @@
+/*
+Izenburua: Buffer Mugatua
+Describapena: Buffer mugatuaren eredua
+Egilea: Alain Barrero
+Data: 2016/10/29
+*/
+
+const N = 5
+
+BUFFER = COUNT[0],
+
+COUNT[i:0..N] = ( when (i<N) put[i] ->COUNT[i+1]
+ 				| when (i>0) get[i] ->COUNT[i-1]
+ ).
+
+IDAZLEA 	= (put[i:0..N-1]	->IDAZLEA	).
+IRAKURLEA 	= (get[i:1..N]	->IRAKURLEA	).
+
+
+||BUFFERMUGATUA = (IDAZLEA || BUFFER || IRAKURLEA).

@@ -1,0 +1,42 @@
+const N = 3 		// kotxe mota bakoitzeko kopurua
+range T = 0..N 		// kotxe kontagailuaren mota
+range ID = 1..N 	// kotxeen zenbakiak
+
+const True = 1
+const False = 0
+range B = False..True
+
+KOTXEA = (eskatu->sartu->irten->KOTXEA).
+
+EZAUR1 = C[1], // sartzeko ordena mantentzen du
+ C[i:ID]= ([i].sartu -> C[i%N+1]).
+
+EZAUR2 = C[1], // irtetzeko ordena mantentzen du
+ C[i:ID]= ([i].irten -> C[i%N+1]).
+
+EZAUR3 = C[1], // eskatu ordena mantentzen du
+ C[i:ID]= ([i].eskatu -> C[i%N+1]).
+
+
+||KONBOI = ([ID]:KOTXEA||EZAUR1||EZAUR2).
+
+
+//kg zubian dauden gorrien kontagailua
+//ku zubian dauden urdinen kontagailuak
+//zg zubian sartzeko zain dauden gorrien kontagailua
+//zu zubian sartzeko zain dauden urdinen kontagailuak
+//ut : true adierazten du urdinen txanda, false adierazten du gorrien txanda
+ZUBIA = ZUBIA[0][0][0][0][True],
+ZUBIA[kg:T][ku:T][zg:T][zu:T][ut:B] =
+										( 								gorria[ID].eskatu	-> ZUBIA[kg][ku][zg+1][zu][ut]
+										| when (ku==0&&(zu==0||!ut)) 	gorria[ID].sartu 	-> ZUBIA[kg+1][ku][zg-1][zu][ut]
+										| 								gorria[ID].irten 	-> ZUBIA[kg-1][ku][zg][zu][True]
+										| 								urdina[ID].eskatu	-> ZUBIA[kg][ku][zg][zu+1][ut]
+										| when (kg==0&&(zg==0||ut)) 	urdina[ID].sartu 	-> ZUBIA[kg][ku+1][zg][zu-1][ut]
+										| 								urdina[ID].irten 	-> ZUBIA[kg][ku-1][zg][zu] [False]
+).
+
+
+||BIDEBAKARREKOZUBIA =(gorria:KONBOI||urdina:KONBOI||ZUBIA).
+
+||ZUBIABETETA = (BIDEBAKARREKOZUBIA) >> {gorria[ID].irten,urdina[ID].irten}.

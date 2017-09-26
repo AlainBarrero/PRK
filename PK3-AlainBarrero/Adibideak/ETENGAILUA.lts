@@ -1,0 +1,11 @@
+/**
+* @Izenburua: etengailua
+* @Describapena: etengailua fsp-a
+* @Egilea: Alain Barrero
+* @Data: 2016/09/27
+*/
+
+
+ETENGAILU = (on->off->ETENGAILU).
+
+||BI_ETENGAILU = (a:ETENGAILU || b:ETENGAILU).

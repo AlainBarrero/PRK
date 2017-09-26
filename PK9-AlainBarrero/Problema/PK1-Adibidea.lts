@@ -1,0 +1,43 @@
+/*
+Izenburua: Enpresaren produktu berria
+Describapena:
+			Enpresa batek produktu berri bat sortu du bezeroak mantentzeko, hau da, bezero premiumak inskripzioa ordaintzen jarraitu dezaten.
+			Aldi berean beste bezeroak erakarri nahi dituzte, enpresa handitu nahian. Horretarako, bezero premiumak zenbait erosketa egin ondoren, 
+			bezero arruntei erosketa bat egitea uzten diote edota bezero premiumik ez badago erosketa egiten.
+Egilea: Alain Barrero
+Data: 2017/01/04
+*/
+
+const PK = 5 			//bezero kopurua
+range PR = 0..PK 		//bezero rangoa
+range ID = 1..PK 		//bezeroen zenbakia
+
+const OT = 2			//bezero premiumen zenbateko orosketa
+
+const True	= 1
+const False = 0
+range BL = False..True 	//bezero arrunten edo premiumen txanda den ala ez 
+
+BEZEROA = (iritsi ->erosiProduktua ->erosketaBukatu	->BEZEROA).
+
+//op --> ordaintzen dauden bezero premiumen kontagailua
+//oa --> ordaintzen dauden bezero arrunten kontagailua
+//zp --> iritsi diren bezero premiumen kontagailua
+//za --> iritsi diren bezero arrunten kontagailua
+DENDA = DENDA[0][0][0],
+DENDA[op:PR][oa:PR][o:PR] =
+							( when (oa==0)					premium[ID].erosiProduktua		 	-> 	if(o>=OT)then 	DENDA[op+1]	[oa]	[o]
+																									else			DENDA[op+1]	[oa]	[o+1]
+							| 								premium[ID].erosketaBukatu 			-> 					DENDA[op-1]	[oa]	[o]
+							| when (op==0 || o==0)			arruntak[ID].erosiProduktua			-> 					DENDA[op]	[oa+1]	[0]
+							| 								arruntak[ID].erosketaBukatu 		-> 					DENDA[op]	[oa-1]	[o]
+												
+).
+
+||HEGAZKIN_TXARTELA = (arruntak[ID]:BEZEROA||premium[ID]:BEZEROA||DENDA)>>{premium[ID].erosketaBukatu}.
+
+/*
+HAUSNARKETA
+			Segurtasuna bermatzeko bezero premium batek erosketa egiten duen bitartean ez iznago du bezero arrunt bat erosketa egin eta alderantziz, bizitasunaren arazoa 
+			konpontzeko txanadk implementatuko dira.
+*/

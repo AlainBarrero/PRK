@@ -1,0 +1,16 @@
+const N = 3 		// kotxe mota bakoitzeko kopurua
+range T = 0..N 		// kotxe kontagailuaren mota
+range ID = 1..N 	// kotxeen zenbakiak
+
+KOTXEA = (sartu->irten->KOTXEA).
+
+EZAUR1 = C[1], // sartzeko ordena mantentzen du
+ C[i:ID]= ([i].sartu -> C[i%N+1]).
+
+EZAUR2 = C[1], // irtetzeko ordena mantentzen du
+ C[i:ID]= ([i].irten -> C[i%N+1]).
+
+
+||KONBOI = ([ID]:KOTXEA||EZAUR1||EZAUR2).
+
+|| KOTXEAK =(gorria:KONBOI||urdina:KONBOI ).

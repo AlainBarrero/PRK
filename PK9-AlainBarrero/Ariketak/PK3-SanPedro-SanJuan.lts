@@ -1,0 +1,64 @@
+/*
+Izenburua: San Pedro – San Juan
+Describapena:
+				Pasaian badago txalupa bat San Pedro eta San Juan komunikatzeko.
+				Alde batetik bestera pasatzeko beharrezkoa da txalupa beteta egotea, edo beste aldean
+				txalupa betetzeko nahiko jende zain egotea.
+				Enbarkaderoan soilik txalupa bat betetzeko behar den jendea sartzen da.			
+Egilea: Alain Barrero
+Data: 2016/12/02
+*/
+
+const PK = 5 			//pertsona kopurua.
+range PR = 0..PK 		//pertsonen rangoa.
+
+const TK = 3 			//txalupan sartzen diren pertsona kopurua.
+range TR = 0..TK 		//txaluparen rangoa
+
+const POK = 3 			//portuan sartzen diren pertsona kopurua.
+range POR = 0..POK 		//portuaren rangoa.
+
+const SP = 0
+const SJ = 1
+range NON = SP..SJ		//txalupa non dagoen adierazten duen aldagaia, San Pedro edo San Juan
+
+range BL = 0..1			//balio bulearra duten aldagaientzako
+
+PERTSONA = (iritsiSJ -> igoSJ -> jeitsiSP -> PERTSONA
+		   |iritsiSP -> igoSP -> jeitsiSJ -> PERTSONA).
+
+TXALUPA = (irtenSP -> bidaiatu-> iritsiSJ -> irtenSJ -> bidaiatu-> iritsiSP -> TXALUPA).
+
+//sp: San Pedron dauden pertsona kopurua.
+//sj: San Juanen dauden pertsona kopurua.
+//tx: Txalupan dauden pertsona kopurua.
+//nt: Txalupa non dagoen: 0 (San Pedron), 1 (San Juanen).
+//ib: Txalupa itsasoan dagoen ala ez. 1 itsasoan, 0 lurran.
+//pb: Pertsonak jeisten dagoen ala ez jakiteko
+PORTUA = PORTUA[0][0][0][0][0][0],
+PORTUA[sp:POR][sj:POR][tx:TR][nt:NON][ib:BL][pb:BL] = 
+					( when (sp < POK) 												p[PR].iritsiSP				-> 						PORTUA [sp+1][sj][tx][nt][ib][pb]
+					| when (tx < TK && nt == SP && pb == 0) 						p[PR].igoSP 				-> 						PORTUA [sp-1][sj][tx+1][nt][ib][pb]	 	
+					| when (ib == 0 && nt == SJ && tx > 0) 							p[PR].jeitsiSJ				-> 	if (tx > 1) then 	PORTUA [sp][sj][tx-1][nt][ib][1]
+																			   					   					else 				PORTUA[sp][sj][tx-1][nt][ib][0]
+
+					| when (sj < POK) 												p[PR].iritsiSJ				-> 						PORTUA [sp][sj+1][tx][nt][ib][pb]
+ 					| when (tx < TK && nt == SJ && pb == 0)							p[PR].igoSJ 				-> 						PORTUA [sp][sj-1][tx+1][nt][ib][pb]
+ 					| when (ib == 0 && nt == SP && tx > 0) 							p[PR].jeitsiSP				-> 	if (tx > 1) then 	PORTUA [sp][sj][tx-1][nt][ib][1]
+																			   					   					else 				PORTUA[sp][sj][tx-1][nt][ib][0]
+ 					
+					| when ((tx == TK && pb == 0)|| (sj == POK && sp == 0 && pb == 0))t.irtenSP					-> 						PORTUA [sp][sj][tx][nt][1][pb]
+ 					| when ((tx == TK && pb == 0)|| (sp == POK && sj == 0 && pb == 0))t.irtenSJ					-> 						PORTUA [sp][sj][tx][nt][1][pb]
+					| when (ib == 1 && nt == SP) 									t.iritsiSJ					-> 	if (tx > 0) then 	PORTUA [sp][sj][tx][SJ][0][1]
+																			   					   					else 				PORTUA [sp][sj][tx][SJ][0][0]
+ 					| when (ib == 1 && nt == SJ) 									t.iritsiSP					-> 	if (tx > 0) then 	PORTUA [sp][sj][tx][SP][0][1]
+																			   										else 				PORTUA [sp][sj][tx][SP][0][0]
+).
+
+||SANPEDROSANJUAN = (p[PR]:PERTSONA||t:TXALUPA||PORTUA)>>{{p[PR]}.igoSP}.
+
+/*
+HAUSNARKETA
+			Eredu honetan ez da gertatzen segurtasun edo bizitasun bortxaketarik, izan ere, kontrolatu egin da enbarkaderoaren pasabidea eta barkuaren juanetorriak,
+			horretarako bi zentzuko pasabidea sortu da eta enbarkaderoan norbait baldin badago barkua itsaron egin beahrko du.
+*/

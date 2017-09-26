@@ -1,0 +1,3 @@
+APUSTUA3 = 	({bat,bi} -> irabazi -> APUSTUA3
+			| hiru -> galdu -> APUSTUA3
+).

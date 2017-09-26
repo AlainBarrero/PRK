@@ -1,0 +1,57 @@
+/*
+Izenburua: Basatien Festa Eroa
+Describapena: 
+				11. Basatien festa eroa:
+								Misiolariak iristean, sukaldariak akatzen ditu, zatitu, puskak hozkailuan sartu, eta
+								hortik lapikora..., begiratuz beti ea tokia dagoen lapikoan, hozkailuan...	
+Egilea: Alain Barrero
+Data: 2016/12/27
+*/
+
+const BK = 3		//basati kopurua
+range BR = 1..BK	//basatien rangoa
+
+const HK = 5		//hondartzan sartzen diren misioilari kopurua
+range HR = 0..HK	//hondartzan sartzen diren misioilari rangoa
+
+const ZK = 5		//hozkailuan sartzen diren pusken kopurua
+range ZR = 0..ZK	//hozkailuan sartzen diren pusken rangoa
+
+const LK = 5		//lapikoan sartzen diren pusken kopurua
+range LR = 0..LK	//lapikoan sartzen diren pusken rangoa
+
+range BL = 0..1 	//blokeatuta dagoen ala ez jakiteko
+const HS = 3		//hozkailuan sartu behar diren puska kopurua
+
+BASATIA = (begiratu[lap:0..LK] -> 	if(lap>0)then 	(erabaki[h:1..lap] ->hartu[h] ->askatu ->BASATIA)
+									else			(askatu ->BASATIA)
+).
+
+TXALUPA = (begiratu[hon:0..HK] -> 	if(hon<HK)then 	(erabaki[h:1..HK-hon] ->iritsi[h] ->askatu ->TXALUPA)
+									else			(askatu ->TXALUPA)
+).
+
+SUKALDARIA = (begiratu[hon:0..HK][hoz:0..ZK][lap:0..LK] -> 	if(hoz>0 && lap<LK)then 		if(hoz<LK-lap)then 	(erabaki[b:1..hoz] 		->bota[b]  ->askatu ->SUKALDARIA)
+																							else				(erabaki[b:1..LK-lap]	->bota[b]  ->askatu ->SUKALDARIA)
+															
+															else 	if(hon>0 && hoz+HS<ZK)then	(hozkailura	->askatu ->SUKALDARIA)
+																	else						(askatu 			 ->SUKALDARIA)							
+).
+
+//hon --> hondartzan dauden misioilariak
+//hoz --> hozkailuan dauden puska kopurua
+//lap --> lapikoan dauden puska kopurua
+//blk --> blokeatuta dagoen ala ez 
+IRLA = IRLA[0][0][0][0],
+IRLA[hon:HR][hoz:ZR][lap:LR][blk:BL] = 	( when(hon<HK)					t.iritsi[i:1..HK-hon]		->IRLA[hon+i][hoz][lap][blk]
+										| when(hoz+HS<ZK && hon>0)		s.hozkailura				->IRLA[hon-1][hoz+HS][lap][blk]
+										| when(lap<LK && hoz>0)			s.bota[b:1..LK]				->IRLA[hon][hoz-b][lap+b][blk]
+										| when(lap>0)					b[BR].hartu[h:1..lap]		->IRLA[hon][hoz][lap-h][blk]
+										| when(blk==0)					s.begiratu[hon][hoz][lap] 	->IRLA[hon][hoz][lap][1]
+										| when(blk==0)					b[BR].begiratu[lap] 		->IRLA[hon][hoz][lap][1]
+										| when(blk==0)					t.begiratu[hon] 			->IRLA[hon][hoz][lap][1]
+									    | 								{b[BR],s,t}.askatu			->IRLA[hon][hoz][lap][0]
+													
+).
+
+||FESTA = (b[BR]:BASATIA||t:TXALUPA||s:SUKALDARIA||IRLA).

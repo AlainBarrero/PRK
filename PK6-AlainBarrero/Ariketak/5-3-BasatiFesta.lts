@@ -1,0 +1,44 @@
+/*
+Izenburua: Basatien festa ariketa
+Describapena: 
+				3. Basatien festa, baina orain
+					• sukaldariak hainbat puska bota eta
+					• basatiek hainbat puska hartu eta,
+					• bota edo hartu aurretik, lapikoan zenbat dagoen begiratzen dute
+Egilea: Alain Barrero
+Data: 2061/10/01
+*/
+
+const N = 3			//Puska kopurua
+range KR = 1..N		//Pusken rangoa
+const BK = 2		//Basati kopurua
+range BR = 1..BK	//Basatien rangoa
+
+//k => lapikoan dauden puskak
+BASATIA = 		( begiratu[k:0..N] -> 
+									if		(k>0)		then ( erabaki[r:1..k] 	-> hartu[r] -> BASATIA ) //r => basatia hartu behar dituen puskak
+									else	(askatu 	-> BASATIA)							
+).
+//k => lapikoan dauden puskak
+SUKALDARIA = 	( begiratu[k:0..N] ->
+									if 		(k<N) 		then ( erabaki[r:1..N-k] -> bota[r] -> 	SUKALDARIA )//r => sukaldaria bota behar dituen puskak
+ 									else 	(askatu 	-> SUKALDARIA)
+).
+
+//i => lapikoan dauden puska kopurua
+//blok => lapikoa blokeatuts dagoen bai (1) ala ez (0)
+LAPIKOA = LAPIKOA[0][0],
+LAPIKOA [i:0..N][blok:0..1] = 	( when (i<N) 		s.bota[b:1..N-i] 			-> LAPIKOA[i+b][0] //b => sukaldariak bota behar dituen puskak
+								| when (i>0) 		b[BR].hartu[r:1..i]		    -> LAPIKOA[i-r][0] //r => basatiak hartu behar dituen puskak
+								| when (blok==0)	{b[BR],s}.begiratu[i] 		-> LAPIKOA[i][1]
+								|					{b[BR],s}.askatu			-> LAPIKOA[i][0]
+).
+
+||JANARIA = ( b[BR]:BASATIA || s:SUKALDARIA || LAPIKOA ).
+
+
+
+ 
+
+
+

@@ -1,0 +1,5 @@
+const N = 3 		// kotxe mota bakoitzeko kopurua
+range T = 0..N 		// kotxe kontagailuaren mota
+range ID = 1..N 	// kotxeen zenbakiak
+
+KOTXEA = (sartu->irten->KOTXEA).

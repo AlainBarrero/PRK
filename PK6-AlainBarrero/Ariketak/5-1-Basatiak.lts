@@ -1,0 +1,30 @@
+/*
+Izenburua: Basatiak
+Describapena: 
+				1. Basatien festa:
+					• Basati bakoitzak lapiko batetik misiolari-puska bat hartzen du; puska hori
+					  jaten bukatzean, tripazgora jarri eta ondoren beste bat hartzen du...
+					• Basati sukaldariak lapikoa hutsik dagoenean lapikoa betetzen du
+					  misiolari-puskekin.
+Egilea: Alain Barrero
+Data: 2016/09/29
+*/
+
+const BK = 4 		//Basati kopurua
+range BR = 1..BK	//Basatien rangoa
+
+const PK = 5		//Puska kopurua
+range PR = 0..PK	//Pusken rangoa
+
+BASATIA 	= ( hartu 	-> jan 			-> tripazgora -> BASATIA).
+SUKALDARIA 	= ( bota	-> SUKALDARIA							).
+
+
+//p => lapikoan dauden puskak
+LAPIKOA = LAPIKOA[0],
+LAPIKOA[p:PR] = 	( when(p >  0) 		b[BR].hartu		->LAPIKOA[p-1]
+ 					| when(p == 0)   	s.bota			->LAPIKOA[p+PK]
+					| 					[p]				->LAPIKOA[p]			
+).
+
+||IRLA = ( b[BR]:BASATIA || s:SUKALDARIA || LAPIKOA ).

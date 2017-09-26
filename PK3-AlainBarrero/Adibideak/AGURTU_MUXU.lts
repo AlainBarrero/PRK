@@ -1,0 +1,11 @@
+/**
+* @Izenburua: agurtu_muxu
+* @Describapena: agurtu_muxu fsp-a
+* @Egilea: Alain Barrero
+* @Data: 2016/09/27
+*/
+
+MUXU 	= (muxukatu	->STOP			  ).
+AGURTU 	= (pentsatu	->hitzegin	->STOP).
+
+||AGURTU_MUXU = (MUXU || AGURTU).

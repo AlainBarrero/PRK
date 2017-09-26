@@ -1,0 +1,7 @@
+const N = 50
+range R = 0..N
+
+MAKINA 		= MAKINA[0],
+MAKINA[i:R] = (if 	(i>50) then  (bukatu -> STOP)
+			   else ([5] -> MAKINA[i+5] | [10] -> MAKINA[i+10] | [20] -> MAKINA[i+20])
+). 

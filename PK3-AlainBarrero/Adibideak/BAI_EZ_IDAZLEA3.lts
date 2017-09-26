@@ -1,0 +1,12 @@
+/**
+* @Izenburua: bai_ez_idazlea
+* @Describapena: bai_ez_idazlea fsp-a
+* @Egilea: Alain Barrero
+* @Data: 2016/09/27
+*/
+
+
+IDAZLEA = 	(idatzi -> IDAZLEA
+ 			|bukatu -> STOP).
+
+||BAIEZ3 = (a:IDAZLEA||b:IDAZLEA).

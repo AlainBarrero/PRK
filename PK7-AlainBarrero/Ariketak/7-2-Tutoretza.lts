@@ -1,0 +1,38 @@
+/*
+Izenburua: Tutoretza
+Describapena:
+				2. Konkurrenteko ikasleek azterketa garaian ikasten egoten dira (suposatzen da):
+					• Ikasleek zerbait ez badute ulertzen irakaslearen bulegora joaten dira, bulegoan sartu, galdera egin 
+					eta erantzuna jaso ondoren bulegotik ateratzen dira, berriz ikastera joateko.
+					• Irakasleak, ikasle batek galdera bat egiten dionean, erantzun baino lehen
+					pentsatu egiten du (suposatzen da).
+					• Gainera irakaslea nahiko berezia denez, tutoretzetarako ondoko arauak ditu:
+						◦ Bulegoan bi ikasle batera egon daitezke, baina ez gehiago.
+						◦ Ikasle batek egin duen galdera erantzun arte, besteak ezin du galdetu.
+						◦ Ikasle bakoitzak galdera bakar bat egin dezake tutoretza bakoitzean.
+						◦ Bulegoan sartzeko eta galdera egiteko ez da errespetatzen aurretik zein zegoen.
+*/
+
+const IK = 4		//Ikasle kopurua
+range RK = 0..IK	//Ikasle rangoa
+
+range GR = 0..1		//Galdera kopurua
+range ER = 0..1		//Erantzuna bai ala ez
+
+IKASLEA = (sartu ->galdetu ->erantzunaJaso -> atera ->IKASLEA).
+
+IRAKASLEA = (galderaEntzun ->pentsatu ->erantzun ->IRAKASLEA).
+
+//gl --> Galdera eginda dagoen ala ez jakiteko
+//er --> Erantzuna eginda dagoen ala ez jakiteko
+BULEGOA = BULEGOA[0][0][0],
+BULEGOA[ik:RK][gl:GR][er:ER] = 	( when(ik<2)					ik[RK].sartu									->BULEGOA[ik+1][gl][er]
+								| when(ik>0)					ik[RK].atera									->BULEGOA[ik-1][gl][er]
+								| when(gl==0 && er==0)			ik[RK].galdetu									->BULEGOA[ik][gl+1][er]
+								| when(gl==1) 					ir.galderaEntzun 								->BULEGOA[ik][gl][er]
+								| when(gl==1 && er==0)			ir.erantzun										->BULEGOA[ik][gl-1][er+1]
+								| when(gl==0 && er==1)			ik[RK].erantzunaJaso 							->BULEGOA[ik][gl][er-1]
+).
+
+||TUTORETZA = (ik[RK]:IKASLEA || ir:IRAKASLEA || BULEGOA).
+

@@ -1,0 +1,31 @@
+/*
+Izenburua: Basatiak Bi
+Describapena: 
+				2. Basatien festa, baina orain
+					• Sukaldariak aldi bakoitzean 3 puska botatzen ditu.
+Egilea: Alain Barrero
+Data: 2016/09/29
+*/
+
+const BK = 3 		//Basati kopurua
+range BR = 1..BK	//Basatien rangoa
+
+const PK = 4		//Puska kopurua
+range PR = 0..PK	//Pusken rangoa
+
+const BPK = 3 		//Sukaldariak Botatako Puska kopurua
+
+BASATIA 	= ( hartu 	-> jan 			-> tripazgora -> BASATIA).
+SUKALDARIA 	= ( bota	-> SUKALDARIA							).
+
+
+//p => lapikoan dauden puskak
+LAPIKOA = LAPIKOA[0],
+LAPIKOA[p:PR] = 	( when(p >  0) 			b[BR].hartu		->LAPIKOA[p-1]
+ 					| when(p <= PK-BPK)   	s.bota			->LAPIKOA[p+BPK]
+					| 						[p]				->LAPIKOA[p]			
+).
+
+||IRLA = ( b[BR]:BASATIA || s:SUKALDARIA || LAPIKOA ).
+
+

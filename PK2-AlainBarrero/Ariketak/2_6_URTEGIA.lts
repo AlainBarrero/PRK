@@ -1,0 +1,10 @@
+const N = 9
+range R = 0..N
+
+URA 		= URA[5],
+URA[i:R] 	= ( when (i==8) 		igo		->asko[i+1]		->URA[i+1] 
+			  |	when (i>2) 			jeitsi	->ongi[i-1]		->URA[i-1] 
+			  | when (i<1) 			igo		->gutxi[i+1]	->URA[i+1] 
+			  | when (i<=2 && i>0) 	jeitsi	->gutxi[i-1]	->URA[i-1]
+			  | when (i>0 && i<8) 	igo		->ongi[i+1]		->URA[i+1] 
+).

@@ -1,0 +1,34 @@
+/*
+Izenburua: LIFO
+Deskribapena:
+				1. LIFO pilaren arazoa, prozesu guztiak noizbait pilatik aterako direla ziurtatuz.
+Egilea: Alain Barrero
+Data: 2016/11/17
+*/
+
+
+const PK = 4		//PK  --> prozesu kopurua
+range PR = 1..PK	//PR  --> prozesuen rangoa
+	
+const FK = 3		//FK  --> lifoaren posizio kopurua
+range FR = 0..FK-1	//FR  --> lifoaren rangoa
+
+range FRL = 0..FK	//FRL --> lifoan dauden prozesuen kopurua
+
+PROZESUA = (sartu.return[i:FR] -> atera[i] -> PROZESUA).
+
+//s --> lifoan sartu eta ateratzeko apuntadorea
+FIFO = FIFO[0],
+FIFO[s:FRL] = 	( when(s<FK)	sartu.return[s] -> FIFO[s+1]
+				| when(s>0)		atera[s-1]		-> FIFO[s-1]
+).
+
+
+||LIFO_ILARA = (p[PR]:PROZESUA || p[PR]::FIFO)<<{{p[PR]}.sartu.return}.
+
+/*
+HAUSNARKETA
+
+Lifoan azkeneko prozesua sartu irten egiten badu denbora guztian, gerta liteke zenbait prozesu inoiz ez ateratzea,
+ondorioz, bizitasun propietatearen bortsaketa hematen da.
+*/

@@ -1,0 +1,29 @@
+/*
+Izenburua: FIFO
+Describapena: 
+				9. FIFO ilara batean prozesuak sartu eta ateratzen dira
+Egiela: Alain Barrero
+Data: 2016/10/22
+*/
+
+const PK = 5		// Prozesu kopurua
+range PR = 1..PK 	// Prozesu rangoa
+
+const FK = 3		// Fifoaren posizio kopurua
+range FR = 0..FK-1	// Fifoaren rangoa
+
+range FRR = 0..FK	// Fifoa beteta edo hutsik dagoen jakiteko estatuak.
+
+PROZESUA = (sartu.return[i:FR]	->atera[i]	->PROZESUA).
+
+//a --> fifoan dagoen prozesua ateratzeko apuntadorea 
+//s --> fifoan prozesu bat sartzeko apuntadorea
+//z --> fifoan dauden prozesu kopurua
+FIFO = FIFO[0][0][0],
+FIFO[s:FR][a:FR][z:FRR] = (when(z<FK) 	sartu.return[s] 	-> FIFO[(s+1)%FK][    a   ][z+1]
+				   		  |when(z>0)  	atera[a]			-> FIFO[   s    ][(a+1)%FK][z-1]
+).
+
+|| FIFO_ILARA = (p[PR]:PROZESUA || p[PR]::FIFO).
+
+

@@ -1,0 +1,17 @@
+/*
+Izenburua: Txanpon
+Describapena: Aurrerapen-propietateak – bidezko aukera
+Egilea: Alain Barrero
+Data: 2016/11/07
+*/
+
+BITXANPON = ( aukeratu->TXANPON
+			| aukeratu->FALTSUA 
+),
+
+FALTSUA = 	( bota->leon->FALTSUA 
+),
+
+TXANPON = 	( bota->leon->TXANPON
+		  	| bota->kast->TXANPON 
+).

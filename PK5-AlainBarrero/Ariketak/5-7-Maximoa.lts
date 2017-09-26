@@ -1,0 +1,37 @@
+/*
+Izenburua: Maximoa
+Describapena:
+				7. Array bateko zenbakien artean maximoa aukeratu, horrela soluzionatuz (soilik FSP eredua eman):
+					• Zenbakiak dituen array-az gain aldagai laguntzaile bat erabiliko dugu maximoa gordetzeko.
+					• Prozesu konkurrenteek ondokoa egiten dute: array-tik (hartu gabeko)
+					  zenbaki bat hartu eta uneko maximoa baino handiagoa bada, maximoan sartu zenbaki hori.
+					• Jakiteko zein den array-tik hartu beharreko zenbakia indize bat erabiliko dugu eguneratzen joan beharko duguna.
+					• Hausnartu zergatik soluzioa hau ez den batere eraginkorra.
+Egiela: Alain Barrero
+Data: 2016/10/22
+*/
+
+const PK = 5		//Prozesu kopurua
+range PR = 0..PK-1	//Prozesuen rangoa
+
+const HK = 6		//Array-ko hutsune kopurua
+range HR = 0..HK-1	//Array-ko rangoa
+
+range Bool = 0..1	//Blokeoa kontrolatuko duen aldagaia
+
+PROZESUA = (hartuArraytik	->hartuMaximoa	->konparatu	->gordeMaximoa	->PROZESUA).
+
+//p 	--> Prozesu kopurua
+//block --> Blokeatuta dagoen ala ez jakiteko aldagaia
+MAXIMOA = MAXIMOA[0],
+MAXIMOA[block:Bool] = (when(block==0)  p[PR].hartuMaximoa	->MAXIMOA[1]
+					  |				   p[PR].gordeMaximoa	->MAXIMOA[0]
+).
+
+//s		--> Sartu eta atera behar den elementuaren apuntadorea
+ARRAY(N=HK-1) = ARRAY[N],
+ARRAY[s:HR] = (when(s>0)  p[PR].hartuArraytik	->ARRAY[s-1]
+			  | 		  [s]   			 	->ARRAY[s]
+).
+
+|| ARRAY_MAXIMOA = (p[PR]:PROZESUA || MAXIMOA || ARRAY).

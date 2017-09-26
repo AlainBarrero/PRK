@@ -1,0 +1,6 @@
+const N = 2
+range R = 0..N
+
+MAX = ( in[x:R][y:R] -> 
+			if(x>=y) then (max[x] -> MAX)
+			else (max[y] -> MAX)).

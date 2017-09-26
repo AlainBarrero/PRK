@@ -1,0 +1,45 @@
+/*
+Izenburua: Zebrabidea
+Describapena:
+				3. Zebrabide batetara iristean, kotxeak zain geldituko dira oinezkoren bat pasatzen edo pasatzeko zain baldin badago.
+				Oinezkoek, ordea, zain geldituko dira une horretan kotxe bat pasatzen ari bada, harrapatuak ez izateko.
+				Gainera ataskorik sor ez dadin, hiru kotxe baino gehiago zain badaude, oinezkoek ere itxarongo dute.
+Egilea: Alain Barrero
+Data: 2017/11/10
+*/
+
+const PK = 5 			// prozesu kopurua
+range PR = 0..PK 		// prozesuen rangoa
+range ID = 1..PK 		// prozesuen zenbakia
+
+const Onz	= 0
+const Ktx = 1
+range BL = Onz..Ktx 	//txandak kontrolatzeko
+
+PROZESUA = (iritsi	->sartu	->irten	->PROZESUA).
+
+//oi --> zebrabidean sartzeko itsoiten dauden pertsona kopurua
+//ki --> zebrabidean sartzeko itsoiten dauden kotxe kopurua
+//ks --> zebrabidean dauden kotxeen kontagailua
+//os --> zebrabidean dauden oinezkoen kontagailua
+//tx --> txandak kontrolatuko dituen aldagaia
+ZEBRABIDEA = ZEBRABIDEA[0][0][0][0][0], 
+ZEBRABIDEA[oi:PR][os:PR][ki:PR][ks:PR][tx:BL] = 	
+			( 																	oinezkoa[ID].iritsi		-> 					ZEBRABIDEA[oi+1]	[os]	[ki]	[ks]	[tx]
+			| when ((ks==0 && ki<3)|| (ks==0 && ki>2 && tx==Onz)) 				oinezkoa[ID].sartu 		-> 	if(ki>2)then 	ZEBRABIDEA[oi-1]	[os+1]	[ki]	[ks]	[Ktx]
+																											else			ZEBRABIDEA[oi-1]	[os+1]	[ki]	[ks]	[tx]
+ 			| 																	oinezkoa[ID].irten 		-> 					ZEBRABIDEA[oi]		[os-1]	[ki]	[ks]	[tx]
+			|																	kotxea[ID].iritsi		-> 					ZEBRABIDEA[oi]		[os]	[ki+1]	[ks]	[tx]
+ 			| when (os==0 && (oi==0 || (ki>2 && tx==Ktx))) 						kotxea[ID].sartu 		-> 	if(ki>2)then	ZEBRABIDEA[oi]		[os]	[ki-1]	[ks+1]	[Onz]
+																											else			ZEBRABIDEA[oi]		[os]	[ki-1]	[ks+1]	[tx]
+ 			| 																	kotxea[ID].irten 		-> 					ZEBRABIDEA[oi]		[os]	[ki]	[ks-1]	[tx]
+).
+													
+
+||ZEBRABIDEA_OK =(kotxea[ID]:PROZESUA||oinezkoa[ID]:PROZESUA||ZEBRABIDEA)>> {oinezkoa[ID].irten, kotxea[ID].irten}.
+
+/*
+HAUSNARKETA
+			Segurtasunari dagokionez konponduta geratu da aurreko ereduan, baina bizitasun propietatea konpontzeko txandak erabili dira, ondorioz, oinezkoak eta kotxeak
+			sartzeko txandak erabiliko dira.
+*/

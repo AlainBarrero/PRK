@@ -1,0 +1,6 @@
+const N = 3
+range R = 0..N
+
+MAILA = (maila[x:0..3] ->
+		 if (x>=2) then (altua -> MAILA)
+ 		 else 			(baxua -> MAILA) ).

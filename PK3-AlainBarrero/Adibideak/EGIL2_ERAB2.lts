@@ -1,0 +1,12 @@
+/**
+* @Izenburua: egil_erab_bi
+* @Describapena: egil_erab_bi fsp-a
+* @Egilea: Alain Barrero
+* @Data: 2016/09/27
+*/
+
+
+EGIL2 = (egin	->prest		->erabilita		->EGIL2).
+ERAB2 = (prest	->erabili	->erabilita		->ERAB2).
+
+||EGIL_ERAB2 = (EGIL2 || ERAB2 ).

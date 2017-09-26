@@ -1,0 +1,17 @@
+/**
+* @Izenburua: Lorategia
+* @Describapena: Lorategia
+* @Egilea: Alain Barrero
+* @Data: 2016/09/26
+*/
+
+const N = 10
+range R = 0..N
+ATEA = (sartu -> ATEA).
+
+KONT = KONT[0],
+KONT[i:R] = (when(i<N) 	{a,b}.sartu -> 	KONT[i+1]
+			|			[i]			->	KONT[i]
+).
+
+|| LORATEGIA = ({a,b}:ATEA || KONT).

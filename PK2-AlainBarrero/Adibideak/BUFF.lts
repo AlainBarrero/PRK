@@ -1,0 +1,4 @@
+BUFF = (in[i:0..3]->out[i]-> BUFF).
+
+
+

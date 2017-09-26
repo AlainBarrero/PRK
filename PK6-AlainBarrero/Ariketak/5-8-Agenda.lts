@@ -1,0 +1,30 @@
+/*
+Izenburua: Agenda
+Describapena:
+				8. Array bateko zenbakien artean maximoa aukeratu, agendaren eredua erabiliz.
+				   Ondo pentsatu noiz bukatzen den prozesaketa.
+Egiela: Alain Barrero
+Data: 2016/10/22
+*/
+
+const PK = 8		//Prozesu kopurua
+range PR = 0..PK	//Prozesuen rangoa
+
+const AK = 9		//Agenda hutsune kopurua
+range AR = 0..AK	//Agendaren rangoa
+
+
+PROZESUA = (hartu  ->konparatu -> sartu ->PROZESUA).
+
+//i	--> Sartu eta atera behar den elementuaren apuntadorea
+//r --> Prozesuak agendarekin amitu duten jakiteko
+AGENDA = AGENDA[AK][0],
+AGENDA[i:AR][r:PR] = ( when(i>=2 &&	r<AK-1)  p[PR].hartu		->[i-1][i-2] 	->AGENDA[i-2][r+1]
+			  		 | when(i<AK && r>=1)	 p[PR].sartu		-> 
+																	if(i==0 && r==1) then 	(emaitza	->STOP				)
+										  	   						else 					([i]		->AGENDA[i+1][r-1]	)
+).
+
+|| AGENDA_MAXIMOA = (p[PR]:PROZESUA || AGENDA).
+
+

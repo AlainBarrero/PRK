@@ -1,0 +1,12 @@
+/**
+* @Izenburua: erloju_irratia
+* @Describapena: erloju_irratia fsp-a
+* @Egilea: Alain Barrero
+* @Data: 2016/09/27
+*/
+
+
+ERLOJUA = (tick	->ERLOJUA		 ).
+IRRATIA = (on	->off	->IRRATIA).
+
+||ERLOJU_IRRATIA = (ERLOJUA || IRRATIA).

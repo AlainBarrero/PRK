@@ -1,0 +1,37 @@
+/*
+Izenburua: Zebrabidea
+Describapena:
+				3. Zebrabide batetara iristean, kotxeak zain geldituko dira oinezkoren bat pasatzen edo pasatzeko zain baldin badago.
+				Oinezkoek, ordea, zain geldituko dira une horretan kotxe bat pasatzen ari bada, harrapatuak ez izateko.
+				Gainera ataskorik sor ez dadin, hiru kotxe baino gehiago zain badaude, oinezkoek ere itxarongo dute.
+Egilea: Alain Barrero
+Data: 2017/11/10
+*/
+
+const PK = 5 			// prozesu kopurua
+range PR = 0..PK 		// prozesuen rangoa
+range ID = 1..PK 		// prozesuen zenbakia
+
+PROZESUA = (iritsi	->sartu	->irten	->PROZESUA).
+
+//oi --> zebrabidean sartzeko itsoiten dauden pertsona kopurua
+//ki --> zebrabidean sartzeko itsoiten dauden kotxe kopurua
+//ks --> zebrabidean dauden kotxeen kontagailua
+//os --> zebrabidean dauden oinezkoen kontagailua
+ZEBRABIDEA = ZEBRABIDEA[0][0][0][0], 
+ZEBRABIDEA[oi:PR][os:PR][ki:PR][ks:PR] = 	
+							( 									oinezkoa[ID].iritsi		-> ZEBRABIDEA[oi+1]	[os]	[ki]	[ks]
+							| when (ks==0 && ki<3) 				oinezkoa[ID].sartu 		-> ZEBRABIDEA[oi-1]	[os+1]	[ki]	[ks]
+ 						 	| 									oinezkoa[ID].irten 		-> ZEBRABIDEA[oi]	[os-1]	[ki]	[ks]
+							|									kotxea[ID].iritsi		-> ZEBRABIDEA[oi]	[os]	[ki+1]	[ks]
+ 						 	| when (os==0 && (oi==0 || ki>2)) 	kotxea[ID].sartu 		-> ZEBRABIDEA[oi]	[os]	[ki-1]	[ks+1]
+ 						 	| 									kotxea[ID].irten 		-> ZEBRABIDEA[oi]	[os]	[ki]	[ks-1]
+).
+
+
+||ZEBRABIDEA_OK =(kotxea[ID]:PROZESUA||oinezkoa[ID]:PROZESUA||ZEBRABIDEA) >> {oinezkoa[ID].irten, kotxea[ID].irten}.
+
+/*
+HAUSNARKETA
+			Seguratusuna konpontzeko kotxeak sartzeko aukera berri bat ezarri da. Bizitasun propietatea ordea bortxatu egiten da, kotxeei heman diogun aukeraren ondorioz.
+*/

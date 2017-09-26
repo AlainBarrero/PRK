@@ -1,0 +1,11 @@
+/**
+* @Izenburua: erabiltzailea
+* @Describapena: erabiltzailea fsp-a
+* @Egilea: Alain Barrero
+* @Data: 2016/09/27
+*/
+
+
+ERABILTZAILEA =
+ (eskuratu->erabili->askatu->ERABILTZAILEA)
+ \{erabili}.

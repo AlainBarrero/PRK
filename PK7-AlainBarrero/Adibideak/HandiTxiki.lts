@@ -1,0 +1,14 @@
+/*
+Izenburua: Handi eta Txiki
+Describapena: Aurrerapena – ekintzen lehentasuna
+Egilea: Alain Barrero
+Data: 2016/11/07
+*/
+
+NORMAL =	( lan->jolastu->NORMAL
+ 			| lo->jolastu->NORMAL).
+
+
+||HANDI =(NORMAL)<<{lan}.
+
+||TXIKI =(NORMAL)>>{lan}.

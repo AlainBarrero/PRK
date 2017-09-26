@@ -1,0 +1,43 @@
+/*
+Izenburua: Ikasleak
+Describapena: 
+				4. Ikasle jator batzuen pisuan gastuetarako bote bat dute.
+					• Norberak ahal duen heinean botean dirua sartzen du, eta behar duen neurrian hartu.
+Egilea: Alain Barrero
+Data: 2061/10/01
+*/
+
+const IK = 2 //Ikasel kourua
+const DK = 5 //Diru kopurua
+
+range IR = 1..IK //Pisukideen rangoa
+range DR = 0..DK //Diruaren rangoa
+
+range BOOL = 0..1 //Botea blokeatuta dagoen bai (1) ala ez (0)
+
+//e => pisukidea sartu (1) edo atera (0) 
+PISUKIDEA = (erabakiSartuAtera[e:BOOL] -> 	if(e==0)then (begiratu[i:DR] -> 
+																			if(i>0) then 	(erabaki[d:1..i] 	-> atera[d] 	-> PISUKIDEA) //d => atera behar duen diru kop.
+																		 	else  		 	(askatu 							-> PISUKIDEA))
+											else (begiratu[i:DR] -> 
+																			if(i<DK) then 	(erabaki[d:1..DK-i] -> sartu[d] 	-> PISUKIDEA) //d => sartu behar duen diru kop.
+																			else 			(askatu 							-> PISUKIDEA))
+).
+
+
+//i => botean dagoen diru kopurua
+//b => botea blokeatuta dagoen bai (1) ala ez (0)
+//p => pisukidea
+BOTEA = BOTEA[0][0],
+BOTEA[i:DR][b:BOOL] = 	( when (b==0)		p[IR].begiratu[i] 			-> BOTEA[i][1]
+						| when (i >0) 		p[IR].atera[d:1..i] 		-> BOTEA[i-d][0]
+						| when (i <DK)		p[IR].sartu[d:1..DK-i] 		-> BOTEA[i+d][0]
+						|					p[IR].askatu				->	BOTEA[i][0]
+
+
+).
+
+
+
+||BOTEDEMO = (p[IR]:PISUKIDEA || BOTEA). 
+
